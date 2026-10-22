@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorvitali Pedidos</title>
+<meta name="theme-color" content="#C8201A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sorvitali">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  html,body{margin:0;height:100%;background:#C8201A;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+  .app{position:fixed;inset:0;padding-top:env(safe-area-inset-top,0px);background:#C8201A;display:flex;flex-direction:column}
+  iframe{flex:1;width:100%;border:0;background:#FBF7F1}
+  .carregando{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-weight:700;pointer-events:none}
+  .carregando img{width:96px;height:96px;border-radius:22px;display:block;margin:0 auto 12px}
+  .dica{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:#fff;color:#2A1A14;border-radius:16px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:15px;line-height:1.4;z-index:5}
+  .dica b{color:#C8201A}
+  .dica button{margin-top:10px;width:100%;border:0;border-radius:12px;padding:10px;background:#F5C400;color:#3A2400;font-weight:800;font-size:15px}
+  .dica[hidden]{display:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="carregando" id="carregando"><div><img src="apple-touch-icon.png" alt=""><span>Abrindo o sistema…</span></div></div>
+  <iframe id="sistema" title="Sorvitali Pedidos" allow="clipboard-write"
+    src="https://script.google.com/macros/s/AKfycbz8buM-KPWogT8Pg5A8k53jGTwh-tY81ooiU4L0fkivfx0AFCVOprJC2yUA9iIYFHHF/exec"></iframe>
+</div>
+<div class="dica" id="dica" hidden>
+  Para instalar no iPhone: toque em <b>Compartilhar</b> (o quadrado com a seta para cima) e depois em <b>Adicionar à Tela de Início</b>.
+  <button id="ok">Entendi</button>
+</div>
+<script>
+  document.getElementById("sistema").addEventListener("load",function(){document.getElementById("carregando").remove();});
+  var ios=/iPhone|iPad|iPod/.test(navigator.userAgent);
+  var instalado=window.navigator.standalone===true||window.matchMedia("(display-mode: standalone)").matches;
+  var visto=false;try{visto=localStorage.getItem("dica-vista")==="1";}catch(e){}
+  if(ios&&!instalado&&!visto){document.getElementById("dica").hidden=false;}
+  document.getElementById("ok").onclick=function(){document.getElementById("dica").hidden=true;try{localStorage.setItem("dica-vista","1");}catch(e){}};
+</script>
+</body>
+</html>
